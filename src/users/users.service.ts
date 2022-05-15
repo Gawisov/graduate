@@ -4,7 +4,6 @@ import { User } from './users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from '../roles/roles.service';
 import { AddRoleDto } from './dto/add-role.dto';
-import { PassThrough } from "stream";
 
 @Injectable()
 export class UsersService {
