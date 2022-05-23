@@ -2,6 +2,8 @@ import { BelongsToMany, Column, DataType, HasMany, Model, Table } from "sequeliz
 import {ApiProperty} from "@nestjs/swagger"; 
 import { Role } from '../roles/roles.model';
 import { UserRoles } from "src/roles/user-roles.model";
+import { Bulletin } from "src/bulletin/bulletin.model";
+import { UserBulletin } from "src/bulletin/user-bulletin.model";
 
 interface UserCreationAttrs {
   login: string;
@@ -45,5 +47,8 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @BelongsToMany(()=> Role, () => UserRoles)
   roles: Role[];
+
+  @BelongsToMany(()=> Bulletin, () => UserBulletin)
+  bulletin: Bulletin[];
 
 }

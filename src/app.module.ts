@@ -8,6 +8,10 @@ import { RolesModule } from './roles/roles.module';
 import {Role} from "./roles/roles.model";
 import {UserRoles} from "./roles/user-roles.model";
 import { AuthModule } from './auth/auth.module';
+import { BulletinModule } from './bulletin/bulletin.module';
+import { UserBulletin } from './bulletin/user-bulletin.model';
+import { Bulletin } from './bulletin/bulletin.model';
+
 
 @Module({
   controllers: [],
@@ -24,12 +28,14 @@ import { AuthModule } from './auth/auth.module';
           username: process.env.POSTGRESS_USER,
           password: process.env.POSTGRESS_PASSWORD,
           database: process.env.POSTGRESS_DB,
-          models: [User, Role, UserRoles],
+          models: [User, Role, UserRoles, UserBulletin, Bulletin],
           autoLoadModels: true
       }),
       UsersModule,
       RolesModule,
       AuthModule,
+      BulletinModule
+      
   ]
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import { User } from './users.model';
 import { Roles } from '../auth/roles-auth.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AddRoleDto } from "./dto/add-role.dto";
+import { AddBulletinDto } from "./dto/add-bulletin.dto";
 
 @ApiTags('Users')
 @Controller("users")
@@ -14,8 +15,10 @@ export class UsersController {
 
   @ApiOperation({summary: 'User creation'})
   @ApiResponse({status: 200, type: User})
+  @Roles("User")
+  @UseGuards(RolesGuard)
   @Post()
-  create(@Body() userDto: CreateUserDto) {
+  create(@Body() userDto: CreateUserDto): Promise<User> {
     return this.usersService.createUser(userDto);
   }
 
@@ -32,8 +35,17 @@ export class UsersController {
   @ApiResponse({status: 200})
   @Roles("Admin")
   @UseGuards(RolesGuard)
-  @Post('/role')
+  @Post('role')
   addRole(@Body() dto: AddRoleDto) {
       return this.usersService.addRole(dto);
+  }
+  
+  @ApiOperation({summary: 'Give bulletin'})
+  @ApiResponse({status: 200})
+  @Roles("User")
+  @UseGuards(RolesGuard)
+  @Post('bulletin')
+  addBulletin(@Body() dto: AddBulletinDto) {
+      return this.usersService.addBulletin(dto);
   }
 }

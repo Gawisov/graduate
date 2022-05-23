@@ -4,12 +4,14 @@ import { User } from './users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from '../roles/roles.service';
 import { AddRoleDto } from './dto/add-role.dto';
+import { AddBulletinDto } from './dto/add-bulletin.dto';
+import { BulletinService } from '../bulletin/bulletin.service';
 
 @Injectable()
 export class UsersService {
 
     constructor(@InjectModel(User) private userRepository: typeof User, 
-        private roleService: RolesService){}
+        private roleService: RolesService, private bulletinService: BulletinService){}
 
     async createUser(dto: CreateUserDto){
         const user = await this.userRepository.create(dto);
@@ -29,6 +31,15 @@ export class UsersService {
         return user;
     }
 
+    async addBulletin(dto:AddBulletinDto){
+        const user = await this.userRepository.findByPk(dto.userId);
+        const bulletin = await this.bulletinService.getBulletinByValue(dto.title);
+        if (bulletin && user) {
+            await user.$add('bulletin', bulletin.id);
+            return dto;
+        }
+    }
+    
     async addRole(dto:AddRoleDto){
         const user = await this.userRepository.findByPk(dto.userId);
         const role = await this.roleService.getRoleByValue(dto.value);
